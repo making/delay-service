@@ -39,7 +39,7 @@ You can confirm current configuration
 curl -v https://delay-service.cfapps.io
 ```
 
-### Unbind the route service
+## Unbind the route service
 
 ```
 cf unbind-route-service cfapps.io delay-service --hostname your-app
