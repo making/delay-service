@@ -1,0 +1,9 @@
+---
+applications:
+- name: delay-service
+  memory: 256M
+  instances: 1
+  path: target/delay-route-service-1.0.0-SNAPSHOT.jar
+  env:
+    JAVA_OPTS: '-XX:ReservedCodeCacheSize=32M -XX:MaxDirectMemorySize=32M'
+    JBP_CONFIG_OPEN_JDK_JRE: '[memory_calculator: {stack_threads: 24}]'
