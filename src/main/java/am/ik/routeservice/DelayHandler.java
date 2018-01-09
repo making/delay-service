@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClient.RequestBodySpec;
+import org.springframework.web.reactive.function.client.WebClient.RequestHeadersSpec;
 import org.springframework.web.reactive.function.server.*;
 import reactor.core.publisher.Mono;
 
@@ -48,16 +50,15 @@ public class DelayHandler {
 		final URI uri = headers.remove(FORWARDED_URL).stream().findFirst()
 				.map(URI::create).orElseThrow(() -> new IllegalStateException(
 						String.format("No %s header present", FORWARDED_URL)));
-		final WebClient.RequestHeadersSpec<?> spec = webClient.method(req.method()) //
+		final RequestHeadersSpec<?> spec = webClient.method(req.method()) //
 				.uri(uri) //
 				.headers(h -> h.putAll(headers));
 		if (log.isInfoEnabled()) {
 			log.info("Incoming Request: <{} {},{}>", req.method(), req.uri(),
 					req.headers().asHttpHeaders());
 		}
-		return req
-				.bodyToMono(String.class).<WebClient.RequestHeadersSpec<?>>map(
-						((WebClient.RequestBodySpec) spec)::syncBody)
+		return req.bodyToMono(String.class)
+				.<RequestHeadersSpec<?>>map(((RequestBodySpec) spec)::syncBody)
 				.switchIfEmpty(Mono.just(spec)) //
 				.delayElement(delay()) //
 				.flatMap(s -> s.exchange()
