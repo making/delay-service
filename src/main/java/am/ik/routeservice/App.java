@@ -1,20 +1,16 @@
 package am.ik.routeservice;
 
+import java.util.Optional;
+
 import org.slf4j.LoggerFactory;
+import reactor.ipc.netty.http.server.HttpServer;
+
 import org.springframework.http.server.reactive.HttpHandler;
 import org.springframework.http.server.reactive.ReactorHttpHandlerAdapter;
 import org.springframework.web.reactive.function.server.HandlerStrategies;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import reactor.core.publisher.Flux;
-import reactor.ipc.netty.http.server.HttpServer;
-
-import java.util.Optional;
-
-import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
-import static org.springframework.web.reactive.function.server.RouterFunctions.route;
-import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 public class App {
 
